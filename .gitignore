@@ -1,0 +1,35 @@
+# ROS2 Build artifacts
+build/
+install/
+log/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ROS2 specific
+*.bag
+*.db3
+*.mcap
+
+# Map files (optional - comment out if you want to commit maps)
+*.pgm
+*.yaml
+!**/config/*.yaml
+
+# Temporary files
+*.log
+*.tmp
