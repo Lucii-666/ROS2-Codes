@@ -1,0 +1,75 @@
+# Camera Configuration
+camera:
+  index: 0
+  frame_rate: 30.0
+  width: 640
+  height: 480
+  frame_id: "camera_frame"
+
+# YOLO Detection
+yolo:
+  model_path: "yolov5s.pt"
+  confidence_threshold: 0.5
+  nms_threshold: 0.4
+  input_size: 640
+  use_gpu: false
+  detect_classes: []  # Empty = all classes
+
+# ArUco Markers
+aruco:
+  dictionary_id: "DICT_4X4_50"
+  marker_size: 0.05  # meters
+  draw_axes: true
+
+# Color Detection
+color_detection:
+  target_color: "red"
+  hsv_lower: [0, 100, 100]
+  hsv_upper: [10, 255, 255]
+  min_area: 500
+  draw_contours: true
+  draw_bounding_boxes: true
+
+# Edge Detection
+edge_detection:
+  algorithm: "canny"
+  canny_threshold1: 50
+  canny_threshold2: 150
+  apply_blur: true
+  blur_kernel_size: 5
+
+# Depth Processing
+depth:
+  min_depth: 0.3  # meters
+  max_depth: 10.0
+  apply_colormap: true
+  filter_invalid: true
+
+# Point Cloud
+pointcloud:
+  downsample_factor: 2
+  max_depth: 5.0
+  voxel_size: 0.01
+
+# Obstacle Detection
+obstacle_detection:
+  detection_range: 3.0  # meters
+  min_obstacle_height: 0.1
+  grid_resolution: 0.1
+  use_clustering: true
+
+# Face Detection
+face_detection:
+  method: "haar"
+  scale_factor: 1.1
+  min_neighbors: 5
+  min_size: 30
+
+# Video Recording
+video_recorder:
+  output_directory: "./recordings"
+  filename_prefix: "recording"
+  codec: "mp4v"
+  fps: 30.0
+  auto_start: false
+  add_timestamp: true
