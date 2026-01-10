@@ -1,0 +1,557 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="robot_with_sensors">
+    
+    <!-- ========================================= -->
+    <!-- BASE LINK                                 -->
+    <!-- ========================================= -->
+    
+    <link name="base_link">
+      <pose>0 0 0 0 0 0</pose>
+      
+      <inertial>
+        <mass>15.0</mass>
+        <inertia>
+          <ixx>0.2833</ixx>
+          <iyy>0.3583</iyy>
+          <izz>0.5416</izz>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+      
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.5 0.4 0.2</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e6</kp>
+              <kd>1e3</kd>
+              <min_depth>0.001</min_depth>
+              <max_vel>0.01</max_vel>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.5 0.4 0.2</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.8 1</ambient>
+          <diffuse>0.2 0.2 0.8 1</diffuse>
+        </material>
+      </visual>
+      
+      <!-- ========================================= -->
+      <!-- IMU SENSOR with realistic noise           -->
+      <!-- ========================================= -->
+      
+      <sensor name="imu_sensor" type="imu">
+        <always_on>1</always_on>
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <topic>imu</topic>
+        
+        <imu>
+          <!-- Angular velocity (gyroscope) noise -->
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.009</stddev>  <!-- 0.5 deg/s -->
+                <bias_mean>0.00008726646</bias_mean>  <!-- 0.005 deg/s bias -->
+                <bias_stddev>0.00008726646</bias_stddev>
+                <dynamic_bias_stddev>0.00004363323</dynamic_bias_stddev>  <!-- Bias drift -->
+                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00008726646</bias_mean>
+                <bias_stddev>0.00008726646</bias_stddev>
+                <dynamic_bias_stddev>0.00004363323</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00008726646</bias_mean>
+                <bias_stddev>0.00008726646</bias_stddev>
+                <dynamic_bias_stddev>0.00004363323</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+              </noise>
+            </z>
+          </angular_velocity>
+          
+          <!-- Linear acceleration (accelerometer) noise -->
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.017</stddev>  <!-- m/s^2 -->
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.01</bias_stddev>
+                <dynamic_bias_stddev>0.005</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.017</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.01</bias_stddev>
+                <dynamic_bias_stddev>0.005</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.017</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.01</bias_stddev>
+                <dynamic_bias_stddev>0.005</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+      
+    </link>
+    
+    <!-- ========================================= -->
+    <!-- LIDAR LINK AND SENSOR                     -->
+    <!-- ========================================= -->
+    
+    <link name="lidar_link">
+      <pose>0 0 0.35 0 0 0</pose>
+      
+      <inertial>
+        <mass>0.2</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <iyy>0.0001</iyy>
+          <izz>0.00005</izz>
+        </inertia>
+      </inertial>
+      
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>0.07</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>0.07</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
+      </visual>
+      
+      <!-- ========================================= -->
+      <!-- LIDAR SENSOR with realistic noise         -->
+      <!-- ========================================= -->
+      
+      <sensor name="lidar" type="gpu_lidar">
+        <topic>scan</topic>
+        <update_rate>10</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.12</min>
+            <max>10.0</max>
+            <resolution>0.015</resolution>
+          </range>
+          
+          <!-- Range noise modeling -->
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.02</stddev>  <!-- 2cm standard deviation -->
+          </noise>
+        </lidar>
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+        
+        <!-- Additional noise plugin for dropouts and outliers -->
+        <plugin
+          filename="ignition-gazebo-lidar-noise-plugin"
+          name="ignition::gazebo::systems::LidarNoise">
+          <dropout_probability>0.02</dropout_probability>  <!-- 2% dropout rate -->
+          <outlier_probability>0.01</outlier_probability>  <!-- 1% outliers -->
+          <outlier_range_min>0.5</outlier_range_min>
+          <outlier_range_max>9.5</outlier_range_max>
+        </plugin>
+      </sensor>
+      
+    </link>
+    
+    <joint name="lidar_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>lidar_link</child>
+    </joint>
+    
+    <!-- ========================================= -->
+    <!-- CAMERA LINK AND SENSOR                    -->
+    <!-- ========================================= -->
+    
+    <link name="camera_link">
+      <pose>0.2 0 0.25 0 0 0</pose>
+      
+      <inertial>
+        <mass>0.15</mass>
+        <inertia>
+          <ixx>0.00001</ixx>
+          <iyy>0.00001</iyy>
+          <izz>0.00001</izz>
+        </inertia>
+      </inertial>
+      
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.03 0.08 0.03</size>
+          </box>
+        </geometry>
+      </collision>
+      
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.03 0.08 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
+      </visual>
+      
+      <!-- ========================================= -->
+      <!-- CAMERA SENSOR with realistic noise        -->
+      <!-- ========================================= -->
+      
+      <sensor name="camera" type="camera">
+        <topic>camera/image</topic>
+        <update_rate>30</update_rate>
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>  <!-- 60 degrees -->
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          
+          <!-- Camera noise modeling -->
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>  <!-- Visual noise -->
+          </noise>
+          
+          <!-- Lens distortion -->
+          <distortion>
+            <k1>-0.02</k1>
+            <k2>0.01</k2>
+            <k3>-0.001</k3>
+            <p1>0.001</p1>
+            <p2>-0.001</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          
+          <!-- Motion blur effect -->
+          <lens>
+            <type>stereographic</type>
+            <scale_to_hfov>true</scale_to_hfov>
+            <cutoff_angle>1.5708</cutoff_angle>
+            <env_texture_size>256</env_texture_size>
+          </lens>
+        </camera>
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+      </sensor>
+      
+      <!-- ========================================= -->
+      <!-- DEPTH CAMERA SENSOR                       -->
+      <!-- ========================================= -->
+      
+      <sensor name="depth_camera" type="depth_camera">
+        <topic>camera/depth</topic>
+        <update_rate>30</update_rate>
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R_FLOAT32</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>10</far>
+          </clip>
+          
+          <!-- Depth noise modeling -->
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>  <!-- 1cm depth noise -->
+          </noise>
+        </camera>
+        <always_on>1</always_on>
+      </sensor>
+      
+    </link>
+    
+    <joint name="camera_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>camera_link</child>
+    </joint>
+    
+    <!-- ========================================= -->
+    <!-- WHEELS - Left and Right                   -->
+    <!-- ========================================= -->
+    
+    <link name="left_wheel">
+      <pose>0 0.225 0 -1.5707 0 0</pose>
+      
+      <inertial>
+        <mass>0.8</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <iyy>0.004</iyy>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.1</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.2</mu>
+              <mu2>1.2</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e6</kp>
+              <kd>1e3</kd>
+              <min_depth>0.0005</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.1</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    
+    <joint name="left_wheel_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>left_wheel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.79769e+308</lower>
+          <upper>1.79769e+308</upper>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+          <friction>0.1</friction>
+        </dynamics>
+      </axis>
+    </joint>
+    
+    <link name="right_wheel">
+      <pose>0 -0.225 0 -1.5707 0 0</pose>
+      
+      <inertial>
+        <mass>0.8</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <iyy>0.004</iyy>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.1</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.2</mu>
+              <mu2>1.2</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e6</kp>
+              <kd>1e3</kd>
+              <min_depth>0.0005</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.1</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    
+    <joint name="right_wheel_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>right_wheel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.79769e+308</lower>
+          <upper>1.79769e+308</upper>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+          <friction>0.1</friction>
+        </dynamics>
+      </axis>
+    </joint>
+    
+    <!-- ========================================= -->
+    <!-- CASTER WHEEL                              -->
+    <!-- ========================================= -->
+    
+    <link name="caster_wheel">
+      <pose>-0.2 0 -0.05 0 0 0</pose>
+      
+      <inertial>
+        <mass>0.3</mass>
+        <inertia>
+          <ixx>0.0003</ixx>
+          <iyy>0.0003</iyy>
+          <izz>0.0003</izz>
+        </inertia>
+      </inertial>
+      
+      <collision name="collision">
+        <geometry>
+          <sphere>
+            <radius>0.05</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.05</mu>
+              <mu2>0.05</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      
+      <visual name="visual">
+        <geometry>
+          <sphere>
+            <radius>0.05</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <ambient>0.5 0.5 0.5 1</ambient>
+          <diffuse>0.5 0.5 0.5 1</diffuse>
+        </material>
+      </visual>
+    </link>
+    
+    <joint name="caster_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>caster_wheel</child>
+    </joint>
+    
+    <!-- ========================================= -->
+    <!-- DIFFERENTIAL DRIVE PLUGIN                 -->
+    <!-- ========================================= -->
+    
+    <plugin
+      filename="ignition-gazebo-diff-drive-system"
+      name="ignition::gazebo::systems::DiffDrive">
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+      <wheel_separation>0.45</wheel_separation>
+      <wheel_radius>0.1</wheel_radius>
+      <odom_publish_frequency>50</odom_publish_frequency>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+      <tf_topic>tf</tf_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+    </plugin>
+    
+  </model>
+</sdf>
