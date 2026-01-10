@@ -1,0 +1,203 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="physics_tuned_world">
+    
+    <!-- ========================================= -->
+    <!-- PHYSICS ENGINE CONFIGURATION              -->
+    <!-- ========================================= -->
+    
+    <physics name="1ms" type="ignored">
+      <!-- Fixed time step for deterministic simulation -->
+      <max_step_size>0.001</max_step_size>  <!-- 1ms timestep -->
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000.0</real_time_update_rate>  <!-- 1000 Hz -->
+    </physics>
+    
+    <!-- Detailed physics parameters for ODE or other engines -->
+    <plugin
+      filename="ignition-gazebo-physics-system"
+      name="ignition::gazebo::systems::Physics">
+      <engine>
+        <filename>ignition-physics-dartsim-plugin</filename>
+      </engine>
+      <dart>
+        <collision_detector>bullet</collision_detector>
+        <solver>
+          <solver_type>dantzig</solver_type>
+        </solver>
+      </dart>
+    </plugin>
+    
+    <plugin
+      filename="ignition-gazebo-user-commands-system"
+      name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    
+    <plugin
+      filename="ignition-gazebo-scene-broadcaster-system"
+      name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+    
+    <plugin
+      filename="ignition-gazebo-contact-system"
+      name="ignition::gazebo::systems::Contact">
+    </plugin>
+    
+    <!-- ========================================= -->
+    <!-- LIGHTING                                  -->
+    <!-- ========================================= -->
+    
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    
+    <!-- ========================================= -->
+    <!-- GROUND PLANE with realistic friction      -->
+    <!-- ========================================= -->
+    
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.8</mu>
+                <mu2>0.8</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>1e7</kp>
+                <kd>1e4</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <!-- ========================================= -->
+    <!-- ROBOT MODEL with SENSORS                  -->
+    <!-- ========================================= -->
+    
+    <include>
+      <uri>model://robot_with_sensors</uri>
+      <pose>0 0 0.15 0 0 0</pose>
+    </include>
+    
+    <!-- ========================================= -->
+    <!-- TEST OBSTACLES for sensor validation      -->
+    <!-- ========================================= -->
+    
+    <model name="box_obstacle_1">
+      <pose>2 0 0.25 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.5 0.5 0.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.2 0.2 1</ambient>
+            <diffuse>0.7 0.2 0.2 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <model name="cylinder_obstacle_1">
+      <pose>-2 1.5 0.5 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>0.3</radius>
+              <length>1.0</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>0.3</radius>
+              <length>1.0</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.2 0.7 0.2 1</ambient>
+            <diffuse>0.2 0.7 0.2 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <model name="wall_1">
+      <pose>0 3 0.5 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>5 0.2 1.0</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>5 0.2 1.0</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+  </world>
+</sdf>
