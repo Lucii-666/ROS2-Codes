@@ -1,0 +1,48 @@
+# =====================================================
+# Physics Tuning Parameters
+# =====================================================
+# These parameters control the physics simulation behavior
+# in Ignition Gazebo for realistic robot motion.
+
+/**:
+  ros__parameters:
+    # Time step configuration
+    physics:
+      max_step_size: 0.001          # 1ms fixed timestep
+      real_time_factor: 1.0          # Target real-time performance
+      real_time_update_rate: 1000.0  # 1000 Hz update rate
+      
+    # Contact dynamics
+    contact:
+      kp: 1.0e6                      # Contact stiffness (N/m)
+      kd: 1.0e3                      # Contact damping (N*s/m)
+      min_depth: 0.001               # Minimum contact depth (m)
+      max_vel: 0.01                  # Maximum contact velocity (m/s)
+      
+    # Robot mass properties
+    robot:
+      base_mass: 15.0                # Base mass (kg)
+      wheel_mass: 0.8                # Wheel mass per wheel (kg)
+      sensor_mount_mass: 0.5         # Sensor mount mass (kg)
+      
+    # Friction coefficients
+    friction:
+      base_mu1: 0.8                  # Base friction coefficient 1
+      base_mu2: 0.8                  # Base friction coefficient 2
+      wheel_mu1: 1.2                 # Wheel friction (higher for traction)
+      wheel_mu2: 1.2
+      caster_mu1: 0.05               # Caster friction (low for sliding)
+      caster_mu2: 0.05
+      ground_mu1: 0.8                # Ground friction
+      ground_mu2: 0.8
+      
+    # Dynamics
+    dynamics:
+      wheel_damping: 0.1             # Wheel joint damping
+      wheel_friction: 0.1            # Wheel joint friction
+      
+    # Differential drive parameters
+    diff_drive:
+      wheel_separation: 0.45         # Distance between wheels (m)
+      wheel_radius: 0.1              # Wheel radius (m)
+      odom_publish_frequency: 50.0   # Odometry publishing rate (Hz)

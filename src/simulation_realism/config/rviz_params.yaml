@@ -1,0 +1,24 @@
+# =====================================================
+# RViz Configuration Parameters
+# =====================================================
+
+/**:
+  ros__parameters:
+    # Display settings
+    display:
+      grid: true
+      axes: true
+      tf: true
+      
+    # Topic subscriptions
+    topics:
+      lidar: "/scan"
+      camera: "/camera/image"
+      depth: "/camera/depth"
+      imu: "/imu"
+      odom: "/odom"
+      
+    # Frame IDs
+    frames:
+      fixed_frame: "odom"
+      robot_frame: "base_link"

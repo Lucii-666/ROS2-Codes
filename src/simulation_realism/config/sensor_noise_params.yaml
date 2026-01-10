@@ -1,0 +1,83 @@
+# =====================================================
+# Sensor Noise Parameters
+# =====================================================
+# Configure realistic sensor noise models for simulation
+
+/**:
+  ros__parameters:
+    # LiDAR noise configuration
+    lidar:
+      update_rate: 10.0              # Hz
+      samples: 360                   # Number of laser beams
+      range_min: 0.12                # Minimum range (m)
+      range_max: 10.0                # Maximum range (m)
+      resolution: 0.015              # Range resolution (m)
+      
+      # Gaussian noise
+      noise_mean: 0.0                # Mean of Gaussian noise (m)
+      noise_stddev: 0.02             # Standard deviation (m) - 2cm noise
+      
+      # Outliers and dropouts
+      dropout_probability: 0.02      # 2% of readings drop out
+      outlier_probability: 0.01      # 1% are outliers
+      outlier_range_min: 0.5         # Outlier range min (m)
+      outlier_range_max: 9.5         # Outlier range max (m)
+      
+    # Camera noise configuration
+    camera:
+      update_rate: 30.0              # FPS
+      width: 640
+      height: 480
+      horizontal_fov: 1.047          # 60 degrees in radians
+      
+      # Image noise
+      noise_mean: 0.0                # Gaussian noise mean
+      noise_stddev: 0.007            # Standard deviation (normalized 0-1)
+      
+      # Lens distortion (Brown-Conrady model)
+      distortion:
+        k1: -0.02                    # Radial distortion coefficient 1
+        k2: 0.01                     # Radial distortion coefficient 2
+        k3: -0.001                   # Radial distortion coefficient 3
+        p1: 0.001                    # Tangential distortion coefficient 1
+        p2: -0.001                   # Tangential distortion coefficient 2
+        
+    # Depth camera noise configuration
+    depth_camera:
+      update_rate: 30.0              # FPS
+      noise_mean: 0.0                # Mean depth noise (m)
+      noise_stddev: 0.01             # Standard deviation (m) - 1cm
+      min_depth: 0.1                 # Minimum depth (m)
+      max_depth: 10.0                # Maximum depth (m)
+      
+    # IMU noise configuration
+    imu:
+      update_rate: 100.0             # Hz
+      
+      # Gyroscope (angular velocity) noise
+      gyro:
+        noise_mean: 0.0              # rad/s
+        noise_stddev: 0.009          # rad/s (~0.5 deg/s)
+        bias_mean: 0.00008726646     # rad/s (~0.005 deg/s)
+        bias_stddev: 0.00008726646   # rad/s
+        dynamic_bias_stddev: 0.00004363323  # Bias drift
+        dynamic_bias_correlation_time: 1000.0  # seconds
+        
+      # Accelerometer (linear acceleration) noise
+      accel:
+        noise_mean: 0.0              # m/s²
+        noise_stddev: 0.017          # m/s²
+        bias_mean: 0.05              # m/s²
+        bias_stddev: 0.01            # m/s²
+        dynamic_bias_stddev: 0.005   # m/s²
+        dynamic_bias_correlation_time: 300.0  # seconds
+        
+    # Sensor monitoring
+    monitoring:
+      enable_lidar_stats: true
+      enable_imu_stats: true
+      enable_odom_stats: true
+      enable_camera_stats: false     # Disable by default (computationally expensive)
+      
+      window_size: 100               # Number of samples for statistics
+      publish_rate: 1.0              # Statistics publish rate (Hz)
