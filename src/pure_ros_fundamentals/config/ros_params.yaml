@@ -1,0 +1,51 @@
+# ROS Configuration Parameters
+# These are the knobs and dials. No magic numbers in code.
+
+/**:
+  ros__parameters:
+    
+    # Sensor parameters
+    lidar:
+      scan_rate_hz: 10
+      angle_min_deg: -180
+      angle_max_deg: 180
+      range_min_m: 0.1
+      range_max_m: 10.0
+      
+    camera:
+      frame_rate_hz: 30
+      width_px: 640
+      height_px: 480
+      focal_length: 500.0
+      
+    encoders:
+      wheel_radius_m: 0.05
+      wheel_base_m: 0.2
+      ticks_per_revolution: 1000
+      
+    # Controller parameters
+    controller:
+      kp_linear: 0.5
+      kp_angular: 1.0
+      ki_linear: 0.0
+      ki_angular: 0.0
+      kd_linear: 0.1
+      kd_angular: 0.1
+      max_linear_velocity: 0.5
+      max_angular_velocity: 1.0
+      goal_tolerance_m: 0.1
+      
+    # Cartographer parameters
+    mapping:
+      resolution_m: 0.05
+      map_width_cells: 200
+      map_height_cells: 200
+      update_rate_hz: 1.0
+      
+    # Physics simulation
+    physics:
+      robot_mass_kg: 10.0
+      wheel_friction: 0.8
+      gravity_m_s2: -9.81
+      time_step_ms: 1.0
+      real_time_factor: 1.0
