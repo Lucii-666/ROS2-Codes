@@ -116,11 +116,24 @@ That is **industrial robotics**, not hobby stuff.
 
 ### 1. Build the Package
 
+**Python nodes:**
 ```bash
 cd ~/ROS  # Or your workspace
 colcon build --packages-select pure_ros_fundamentals
 source install/setup.bash
 ```
+
+**Rust nodes** (optional, for high-performance):
+```bash
+# Install Rust first
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+pip3 install colcon-cargo colcon-ros-cargo
+
+# Build with Rust support
+colcon build --packages-select pure_ros_fundamentals
+```
+
+See [RUST_GUIDE.md](RUST_GUIDE.md) for details on Rust implementations.
 
 ### 2. Launch Sensor Demo
 
@@ -175,7 +188,7 @@ Add these displays:
 
 ## 🔍 Explore Individual Nodes
 
-Run them one at a time to understand each piece:
+**Python implementations** (educational, well-commented):
 
 ```bash
 # The Watchman
@@ -201,6 +214,22 @@ ros2 run pure_ros_fundamentals tf_broadcaster
 
 # The Physics Monitor
 ros2 run pure_ros_fundamentals physics_monitor
+```
+
+**Rust implementations** (high-performance, memory-safe):
+
+```bash
+# High-speed LiDAR (<10 μs per scan)
+ros2 run pure_ros_fundamentals rust_lidar_scanner
+
+# Real-time PID controller
+ros2 run pure_ros_fundamentals rust_pid_controller
+
+# Kalman filter odometry fusion
+ros2 run pure_ros_fundamentals rust_odometry_fusion
+
+# A* path planner (<1ms for 100x100 grid)
+ros2 run pure_ros_fundamentals rust_path_planner
 ```
 
 ---

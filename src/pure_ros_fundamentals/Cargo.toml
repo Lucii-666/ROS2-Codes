@@ -1,0 +1,49 @@
+[package]
+name = "pure_ros_fundamentals_rust"
+version = "1.0.0"
+edition = "2021"
+authors = ["ROS Samurai"]
+description = "Bare-metal ROS fundamentals in Rust - zero-cost abstractions, memory safety, blazing speed"
+
+[dependencies]
+rclrs = "0.4"
+std_msgs = { version = "0.4", features = ["rclrs"] }
+sensor_msgs = { version = "0.4", features = ["rclrs"] }
+geometry_msgs = { version = "0.4", features = ["rclrs"] }
+nav_msgs = { version = "0.4", features = ["rclrs"] }
+tf2_msgs = { version = "0.4", features = ["rclrs"] }
+
+# For numerical computations
+nalgebra = "0.32"
+
+# For safe concurrency
+parking_lot = "0.12"
+
+# For efficient data structures
+heapless = "0.8"
+
+# For serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[[bin]]
+name = "rust_lidar_scanner"
+path = "src/rust_lidar_scanner.rs"
+
+[[bin]]
+name = "rust_pid_controller"
+path = "src/rust_pid_controller.rs"
+
+[[bin]]
+name = "rust_odometry_fusion"
+path = "src/rust_odometry_fusion.rs"
+
+[[bin]]
+name = "rust_path_planner"
+path = "src/rust_path_planner.rs"
