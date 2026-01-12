@@ -15,7 +15,7 @@ class ControllerSoldierNode(Node):
     """
     The controller is a soldier following orders.
     "Go to X,Y" - he obeys.
-    PID control. Pure math. No neural networks.
+    PID control. Pure math.
     """
 
     def __init__(self):

@@ -74,7 +74,7 @@ class SensorOrchestraNode(Node):
     def report_status(self):
         """
         Check if all sensors are playing.
-        This is fault detection - no AI needed.
+        Pure fault detection - deterministic monitoring.
         """
         now = self.get_clock().now()
         timeout = 2.0  # 2 seconds

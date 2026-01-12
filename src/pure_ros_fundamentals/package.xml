@@ -4,7 +4,7 @@
   <name>pure_ros_fundamentals</name>
   <version>1.0.0</version>
   <description>
-    The bare-metal truth of ROS - fundamental robotics without neural networks.
+    The bare-metal truth of ROS - fundamental robotics concepts.
     Master the sword before the sorcery. The machine before it learns to dream.
   </description>
   <maintainer email="robot@example.com">ROS Samurai</maintainer>

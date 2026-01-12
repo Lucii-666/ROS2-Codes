@@ -17,7 +17,7 @@ class CartographerNode(Node):
     """
     The cartographer listens to the watchman (LiDAR) and the monk (encoders).
     From their whispers, he draws a map of the world.
-    No machine learning. Just geometry and probability.
+    Pure geometry and probability.
     """
 
     def __init__(self):

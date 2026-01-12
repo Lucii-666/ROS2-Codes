@@ -10,7 +10,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     """
     Launch all sensor nodes together.
-    Watch them communicate. No AI. Pure determinism.
+    Watch them communicate. Pure determinism.
     """
     
     return LaunchDescription([

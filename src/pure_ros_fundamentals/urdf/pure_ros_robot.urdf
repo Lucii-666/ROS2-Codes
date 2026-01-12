@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- 
 The Robot Model - Pure Geometry and Mass
-No AI. Just physics. Ancient mechanics in XML.
+Just physics. Ancient mechanics in XML.
 -->
 <robot name="pure_ros_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 

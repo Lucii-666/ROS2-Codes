@@ -37,7 +37,7 @@ class CameraGossipNode(Node):
     def publish_frame(self):
         """
         Every frame, the camera captures light and converts it to numbers.
-        This is not AI. This is just counting photons.
+        Pure sensor data - just counting photons.
         """
         # Create a simple synthetic image (in real world, this comes from hardware)
         # Let's make a gradient that changes over time
